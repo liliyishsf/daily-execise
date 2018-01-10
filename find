@@ -1,0 +1,49 @@
+/ /并查集
+#include<stdio.h>
+int pre[1000];
+int a[1000];
+int book[100];
+int find(int x)
+{
+	int r=x;
+	if(pre[r]==0)//如果是空的，就自立为王 
+	{
+		pre[r]=r;
+		return r;
+	}
+	while(pre[r]!=r&&pre[r]!=0)
+		r=pre[r];
+	if(pre[r]==0)  pre[r]=r;	
+	int temp=x;
+	while(temp!=r)
+	{
+		int parent=pre[temp];
+		pre[temp]=r;
+		temp=parent;
+	}
+	return r;
+}
+
+int main()
+{
+	int p,r;
+	while(scanf("%d%d",&p,&r))
+	{
+		int m,n;
+		int count=0;
+		for(int i=1;i<=p;i++)
+			scanf("%d",&a[i]);
+		for(int i=1;i<=r;i++)
+			scanf("%d%d",&m,&n),pre[m]=n;
+		for(int i=1;i<=p;i++)
+		{
+			int z=find(a[i]);
+			book[z]++;
+			printf("%d\n",z);
+		}
+		for(int i=1;i<100;i++)
+			if(book[i])  printf("%d  %d\n",i,book[i]),count++;	
+		printf("%d\n",count);		
+	}
+	return 0;
+}
